@@ -11,7 +11,7 @@
 
 #define TMP_FILE "/tmp/scan.jpg"
 static char tiff_file[512] = "/tmp/scan.tiff";
-
+static char file_name[512];
 
 typedef struct scan_type {
 	long 	dpi;	
@@ -22,10 +22,18 @@ typedef struct scan_type {
 #define CIRC 100			// circumference in mm
 #define SCAN_TYPE(dpi, degrees) {dpi, CIRC*(double)degrees/360.0}
 
+// Brandon has added more members of this array to give options to the user
 static const scan_type st[] = {
 	SCAN_TYPE(75,100),		// placement check
 	SCAN_TYPE(75,1100),		// preview scan
-	SCAN_TYPE(600,600),		// HQ scan
+	SCAN_TYPE(100,1100),			
+	SCAN_TYPE(150,1100),
+	SCAN_TYPE(200,1100),
+	SCAN_TYPE(300,1100),
+	SCAN_TYPE(600,1100),
+	SCAN_TYPE(1200,1100),
+	SCAN_TYPE(2400,1100),
+	SCAN_TYPE(4800,1100),
 };
 
 static pthread_mutex_t scan_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -57,13 +65,21 @@ tiff_name(char *v)
         strncpy(tiff_file, v, sizeof(tiff_file));
         tiff_file[sizeof(tiff_file)-1] = 0;
 }
+
+void
+file_name_assign(char *v)
+{
+	strncpy(file_name, v, sizeof(file_name));
+	file_name[sizeof(file_name)-1] = 0;
+}
 // purpose setting up variables
 void *
 scan_thread(void *v)
 {
 	const SANE_Device **list;
 	SANE_Status res;
-	unsigned char initted = 0, opened=0, not_retried=0, retried, initted_already;
+	// Just a note. the uninitialization of retried and initted_already caused seg faults
+	unsigned char initted = 0, opened=0, not_retried=0, retried=0, initted_already=0;
 	int resolution_option = -1;
 	int br_y_option = -1;
 	SANE_Handle handle;
@@ -190,12 +206,13 @@ printf("setting options handle=%lx\n", (long)handle);
 			fprintf(stderr, "no SANE br-y parameter found\n");
 		} else {	// set length
 		        printf("else chosen flag\n");
-			SANE_Fixed val = SANE_FIX(st[this_scan_type].length);// altered from SANE_Fixed val = SANE_FIX(st[this_scan_type].length)  but then changed to SANE_Fixed val = st[this_scan_type].length;
+			// BRANDON changd the named of variable because it conflicts with one from if-else block above (previously just 'val')
+			SANE_Fixed value = SANE_FIX(st[this_scan_type].length);// altered from SANE_Fixed val = SANE_FIX(st[this_scan_type].length)  but then changed to SANE_Fixed val = st[this_scan_type].length;
 			//if (o->unit != SANE_UNIT_MM)
 			//	val = val*st[this_scan_type].dpi/25.4;
-			res = sane_control_option(handle, br_y_option, SANE_ACTION_SET_VALUE, &val, 0);
+			res = sane_control_option(handle, br_y_option, SANE_ACTION_SET_VALUE, &value, 0);
 			if (res != SANE_STATUS_GOOD)
-				fprintf(stderr, "SANE set length %d/%d failed '%s'\n", val, SANE_FIX(st[this_scan_type].length), sane_strstatus(res));
+				fprintf(stderr, "SANE set length %d/%d failed '%s'\n", value, SANE_FIX(st[this_scan_type].length), sane_strstatus(res));
 		}
                 printf("about to setScanner\n");
 		setScanner((char*)"Canon", (char*)"700F");
@@ -338,8 +355,10 @@ void
 scan_start(int type)
 {
 
-	if (type < 0 || type  > 2)
+	if (type < 0 || type  > 9)
 		type = 0;
+	//file_name_assign(filename);
+	//tiff_name(tiff_filename);
 	startup_scan();
 	pthread_mutex_lock(&scan_mutex);
 	while (scan_running) 
@@ -347,7 +366,7 @@ scan_start(int type)
 	scan_request = 1;
 	this_scan_type = type;
 	req_scan_cancel = 0;
-	saving_tiff = (type == 2);
+	saving_tiff = (2 <= type);
 	pthread_cond_broadcast(&scan_cond);
 	pthread_mutex_unlock(&scan_mutex);
 }
