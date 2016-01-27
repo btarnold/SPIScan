@@ -1,0 +1,17 @@
+These files build the dspace shared library - which is intended to to be used with Python scripts to interact with the SANE library and a SANE or genesys scanner. 
+The Makefile provides all of the necessary commands to make/build all the necessary shared object files, as well as the option for a clean target (command is 'make clean').
+
+Changes were made to several of the files present from the original SPIScan project (available at https://github.com/Dspace/SPIScan). These files include:
+	- scan.c
+	- Makefile
+	- dynscan.py (new file)
+	- README
+	- loscan.py (minor changes)
+
+Below is the original README text as presented in the Dspace/SPIScan project:
+	"These files build the dspace shared library - it's intended to be used with
+python - 'make' makes the shared library and pythion bindings, it builds the scan code from here,
+Michael's arduino interface library, and will eventually include gps and stuff fr manipulating 
+mpeg/etc"
+
+

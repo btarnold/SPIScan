@@ -1,3 +1,5 @@
+var host_url = "http://localhost";
+
 $(document).ready(function () {
     $("td").dblclick(function () {
         var OriginalContent = $(this).text();
@@ -13,8 +15,8 @@ $(document).ready(function () {
                 $(this).parent().removeClass("cellEditing");
                 if(newContent !== OriginalContent){
                    $.ajax({
-                        url: "http://localhost/cgi-bin/updatedb.py",
-                        type: "GET",
+                        url: host_url+"/cgi-bin/updatedb.py",
+                        type: "POST",
                         data: {'id': row_id, 'newContent': newContent},
                         success: function(response){
                                 alert(JSON.stringify(response));

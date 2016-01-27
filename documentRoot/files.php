@@ -17,11 +17,8 @@
       }
     </style>
     <link href="static/docs/assets/css/bootstrap-responsive.css" rel="stylesheet">
-
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link href="table.css" rel="stylesheet">
+    <link href="theme.css" rel="stylesheet">
 
     <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="static/docs/ico/favicon.ico">
@@ -59,7 +56,7 @@
          {
             function __construct()
             {
-               $this->open('../db/test.db');
+               $this->open('db/test.db');
             }
          }
          $db = new MyDB();
