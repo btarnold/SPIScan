@@ -1,5 +1,0 @@
-      [paste.app_factory]
-      main = surveyorgui:main
-      [console_scripts]
-      initialize_surveyorgui_db = surveyorgui.scripts.initializedb:main
-      
