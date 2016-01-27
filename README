@@ -10,6 +10,17 @@ The members of the Capstone group Sea Floor Sensing that are participating in th
 
 The user of this code will be able to interact with the SPI-scanner hardware through an easy-to-use webpage controller.
 
-To add this code to your development environment, place the files in the system directory into your web server's cgi-bin directory and put the files in the documentRoot folder into the web server's document root.
+TODO (on a project level):
+	- Create a linux image with all necessary source files and packages installed
+	- Create some instructional reference for anyone wanting to incorporate this code into their own project, including - but not limit to - the following:
+		- Installed packages
+		- Modified configuration files
+		- Instructions for installing Linux image onto SD card
+		- Recommendations (ie. large SD card w/ fast write speeds)
+		- Block diagrams/Functional decomposition
+		- FMEA information
+
+Web server related:
+	- To add this code to your development environment, place the files in the system directory into your web server's cgi-bin directory and put the files in the documentRoot folder into the web server's document root.
 
 Some of the code that was forked from Dspace/SPIScan is deprecated and not used within the scope of our Capstone project (ie. some aspects of the Pyramids mockup).
