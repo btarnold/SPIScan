@@ -28,17 +28,17 @@ else:
 	tiff_filename="/tmp/temp_scan.tiff"
 
 ## Set the description of the scan; no changes yet made to dspace.scan_description
-if num_args<4:
-	print( "Error, insufficient arguments" )
-elif num_args==4:
+#if num_args<4:
+#	print( "Error, insufficient arguments" )
+if num_args<=4:
 	dspace.scan_description("test description");
 else:
 	dspace.scan_description(args[4])
 
 ## Set the position in the SCAN_TYPE array defined in scan.c that dspace.scan_start will use
-if (dpi_number==75 and description=="placement check"):
-	scan_array_pos=0
-elif dpi_number==75:
+#if (dpi_number==75 and description=="placement check"):
+#	scan_array_pos=0
+if dpi_number==75:
 	scan_array_pos=1
 elif dpi_number==100:
 	scan_array_pos=2
