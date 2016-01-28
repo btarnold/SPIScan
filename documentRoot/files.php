@@ -66,26 +66,28 @@
             echo "Opened database successfully<br/>";
          }
 
-         $sql = "SELECT * from COMPANY";
+         $sql = "SELECT * from SCANS";
          $ret = $db->query($sql);
          echo "<table class = 'table'>";
          echo "<thead><tr>";
          echo "<th align='left'>ID</th>";
-         echo "<th align='left'>NAME</th>";
-         echo "<th align='left'>ADDRESS</th>";
-         echo "<th align='left'>SALARY</th>";
-         echo "<th>EDIT</th>";
+         echo "<th align='left'>FILENAME</th>";
+         echo "<th align='left'>DPI</th>";
+         echo "<th align='left'>USERNOTES</th>";
+         echo "<th align='left'>TIME</th>";
+         echo "<th align='left'>LOCATION</th>";
          echo "<th>DELETE</th>";
          echo "</tr></thead>";
          while($row = $ret->fetchArray(SQLITE3_ASSOC) ){
             echo "<tr id = '".$row['ID']."'>";
             echo "<td>". $row['ID'] . "</td>";
-            echo "<td><a href = 'images/". $row['NAME'] .".jpg'";
-            echo "download = '".$row['NAME'].".jpg'>";
-            echo $row['NAME'] ."</a></td>";
-            echo "<td>". $row['ADDRESS'] ."</td>";
-            echo "<td>".$row['SALARY'] ."</td>";
-            echo "<td><button>EDIT</td></button></td>";
+            echo "<td><a href = 'images/". $row['FILENAME'] ."'";
+            echo "download = '".$row['FILENAME']."'>";
+            echo $row['FILENAME'] ."</a></td>";
+            echo "<td>". $row['DPI'] ."</td>";
+            echo "<td>".$row['USERNOTES'] ."</td>";
+            echo "<td>".$row['TIME'] ."</td>";
+            echo "<td>".$row['LOCATION'] ."</td>";
             echo "<td><button>DELETE</td></button></td>";
             echo "</tr>";
          }
