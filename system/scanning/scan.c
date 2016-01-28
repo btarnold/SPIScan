@@ -155,7 +155,7 @@ printf("searching for options\n");
       				fprintf (stderr, "Could not get value for option 0: %s\n", sane_strstatus(res));
       				goto retry;
     			}
-//printf("got %d\n",num_dev_options);
+printf("got %d\n",num_dev_options);
 
 			for (i = 1; i < num_dev_options ; i++) { // search the list for the options we care about
 				const SANE_Option_Descriptor *o = sane_get_option_descriptor(handle, i);
@@ -177,8 +177,8 @@ fflush(stdout);
 					sane_control_option(handle, i, SANE_ACTION_SET_VALUE, (char*)"Color", 0);
 				} else
 				if (strcmp(o->name, "depth") == 0) { // set the pixel component size to 8
-					SANE_Word val = 8;
-					sane_control_option(handle, i, SANE_ACTION_SET_VALUE, &val, 0);
+					SANE_Word value_word = 8;
+					sane_control_option(handle, i, SANE_ACTION_SET_VALUE, &value_word, 0);
 				} else
 				if (strcmp(o->name, "br-y") == 0) { // remember the index for Y length
 					br_y_option = i;
