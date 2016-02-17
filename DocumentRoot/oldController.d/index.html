@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI Button - Call test python script</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script>
+  $(function() {
+    $( "#b1" )
+      .button()
+      .click(function() {
+
+        $.ajax({
+            url: "/cgi-bin/Blink9Times.py",
+            type: "post",
+            datatype:"json",
+            data: {'key':'value','key2':'value2'},
+            success: function(response){
+                alert(JSON.stringify(response, undefined, 2));
+            }
+        });
+     });
+
+     $( "#b2" )
+       .button()
+       .click(function() {
+
+         $.ajax({
+             url: "/cgi-bin/TurnOffLED.py",
+             type: "post",
+             datatype:"json",
+             data: {'key':'value','key2':'value2'},
+             success: function(response){
+                 alert(JSON.stringify(response, undefined, 2));
+             }
+         });
+       });
+
+       $( "#b3" )
+         .button()
+         .click(function() {
+
+           $.ajax({
+               url: "/cgi-bin/TurnOnLED.py",
+               type: "post",
+               datatype:"json",
+               data: {'key':'value','key2':'value2'},
+               success: function(response){
+                   alert(JSON.stringify(response, undefined, 2));
+               }
+           });
+         });
+  });
+  </script>
+</head>
+<body>
+<div></div>
+<button id = "b1">Blink 9 Times</button>
+<button id = "b2">Turn off</button>
+<button id = "b3">Turn on</button>
+<iframe src="http://129.65.138.231:8081" height="320" width="550"></iframe>
+</body>
+</html>

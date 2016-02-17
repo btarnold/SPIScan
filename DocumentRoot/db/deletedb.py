@@ -1,0 +1,11 @@
+#!/usr/bin/python
+
+import sqlite3
+
+conn = sqlite3.connect('test.db')
+print "Opened database successfully";
+
+conn.execute('''drop table if exists scans''')
+print "Table dropped successfully";
+
+conn.close()
