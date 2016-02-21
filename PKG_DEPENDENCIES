@@ -18,12 +18,16 @@ SCANNING (Brandon):
 	  will be required in the Makefile at system/scanning
 
 WEBPAGE CONTROLLER:
-
-
+packages:
+lighttpd
+php5
+sqlite (or sqlite3)
+php5-sqlite
+zip
 
 GPS:
 
 
 
 TIFF, GEOTIFF, and WATERMARKING:
-
+gdal-bin
