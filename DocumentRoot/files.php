@@ -49,6 +49,12 @@
         </div>
       </div>
     </div>
+    <div align = "center">
+       <div id = 'sysmem'></div>
+       <a class = 'btn' id = 'export'>Export and Pack</a>
+       <a class = 'btn' id = 'dlzip' href = "/db.zip">Download Zip</a>
+       <a class = 'btn' id = 'purge'>Purge</a>
+    </div>
 
     <div class="container">
       <?php
@@ -76,6 +82,7 @@
          echo "<th align='left'>USERNOTES</th>";
          echo "<th align='left'>TIME</th>";
          echo "<th align='left'>LOCATION</th>";
+         echo "<th>DOWNLOAD</th>";
          echo "<th>DELETE</th>";
          echo "</tr></thead>";
          while($row = $ret->fetchArray(SQLITE3_ASSOC) ){
@@ -84,12 +91,13 @@
             echo "<td><a href = 'scans/". $row['FILENAME'] ."'>";
             echo $row['FILENAME'] ."</a></td>";
             echo "<td>". $row['DPI'] ."</td>";
-            echo "<td>".$row['USERNOTES'] ."</td>";
+            echo "<td class = 'editable'>".$row['USERNOTES'] ."</td>";
             echo "<td>".$row['TIME'] ."</td>";
             echo "<td>".$row['LOCATION'] ."</td>";
-            echo "<td><button><a href = 'scans/".$row['FILENAME'] . "' "; 
+            echo "<td><button><a href = 'scans/".$row['FILENAME'] . "' ";
             echo "download = '".$row['FILENAME']."'>";
-	    echo "DOWNLOAD</td></button></td>";
+	         echo "DOWNLOAD</td></button></td>";
+            echo "<td><button class = 'delete'>DELETE</button></td>";
             echo "</tr>";
          }
          echo "</table>";
@@ -106,6 +114,7 @@
 
     <script src="static/docs/assets/js/jquery.js"></script>
     <script src="table.js"></script>
+    <script src="files.js"></script>
     <script src="static/docs/assets/js/bootstrap-transition.js"></script>
     <script src="static/docs/assets/js/bootstrap-alert.js"></script>
     <script src="static/docs/assets/js/bootstrap-modal.js"></script>

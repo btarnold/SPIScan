@@ -15,7 +15,7 @@ sys.stdout.write("\n")
 
 result = {}
 result['success'] = True
-result['message'] = "Jon == Brandon"
+result['message'] = "called purgedb.py"
 result['keys'] = ",".join(fs.keys())
 docRoot = '/var/www/html/'
 d = {}
@@ -31,9 +31,7 @@ sys.stdout.close()
 # Get data from fields
 
 conn = sqlite3.connect(docRoot+'db/test.db')
-usernotes = fs.getvalue('newContent')
-id = fs.getvalue('id')
-conn.execute("UPDATE SCANS set USERNOTES = '"+usernotes+"' where ID = "+id)
+conn.execute("DELETE from SCANS")
 conn.commit()
 conn.close()
 '''print "Total number of rows updated :", conn.total_changes

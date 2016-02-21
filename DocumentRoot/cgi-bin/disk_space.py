@@ -1,9 +1,11 @@
-#!/usr/bin/env python
-
+#!/usr/bin/python
 import sys
+import subprocess
+import cgi,cgitb
 import json
-import cgi
+import df
 
+#cgitb.enable()
 fs = cgi.FieldStorage()
 
 sys.stdout.write("Content-Type: application/json")
@@ -14,7 +16,7 @@ sys.stdout.write("\n")
 
 result = {}
 result['success'] = True
-result['message'] = "Called test"
+result['message'] = "Called "
 result['keys'] = ",".join(fs.keys())
 
 d = {}
@@ -23,7 +25,9 @@ for k in fs.keys():
 
 result['data'] = d
 
+
+result['percentage'] = df.disk_space()
+
 sys.stdout.write(json.dumps(result,indent=1))
 sys.stdout.write("\n")
-
 sys.stdout.close()

@@ -6,8 +6,9 @@ import cgi
 import os
 import sqlite3
 import time
-import spi_gps
-import Watermark_OneSize
+#import spi_gps
+#import Watermark_OneSize
+import df
 
 fs = cgi.FieldStorage()
 
@@ -28,23 +29,39 @@ for k in fs.keys():
 
 result['data'] = d
 
-dpi = fs.getvalue('resolution')
+percentage = int(df.disk_space().split('%')[0])
+if(percentage > 75 ):
+    result['success'] = False
+    sys.stdout.write(json.dumps(result,indent=1))
+    sys.stdout.write("\n")
+    sys.exit()
+
+dpi = int(fs.getvalue('resolution'))
 user_notes = fs.getvalue('userNotes')
 
+'''
+image_directory = '/var/www/images';
+sys_call = 'scanning/dynscan.py '+str(dpi)+' '+image_directory+jpeg_filename+' '+image_directory+tiff_filename
+if(user_notes)
+    sys_call += user_notes
+os.system(sys_call)
+'''
 #get coordinates from GPS module
-
+gps_lat = 3.0 #spi_gps.get_latitude()
+gps_long = 3.0 #spi_gps.get_longitude()
+gps_string = str(gps_lat) + str(gps_long)
 #connect to db and get picture number/var/www/images
 
-conn = sqlite3.connect('/var/www/db/test.db')
+conn = sqlite3.connect('/var/www/html/db/test.db')
 #print "Opened database successfully"
 
 #compute new id by looking at the max id + 1 from sqlte DB
 cursor = conn.execute("SELECT MAX(ID) FROM SCANS;")
 for row in cursor:
     if(row[0]):
-    	new_id = int(row[0]) + 1
+        new_id = int(row[0]) + 1
     else:
-       new_id = 1
+        new_id = 1
     break
 #print new_id
 
@@ -53,35 +70,30 @@ localtime = time.strftime('%Y-%m-%d_%H:%M:%S')
 #print localtime
 
 #construct filename
-jpg_filename = localtime + '.jpg';
+jpeg_filename = localtime + '.jpeg';
 tiff_filename = localtime + '.tiff';
-long = spi_gps.get_longitude()
-lat =spi_gps.get_latitude()
-location = "long:"+str(long)+" lat:"+str(lat)
+
+location = 'N/A'
 if(not user_notes):
     user_notes = 'null'
 
 query = "INSERT INTO SCANS (ID,FILENAME,DPI,USERNOTES,TIME,LOCATION) \
-      VALUES ("+str(new_id)+", '"+jpg_filename+"',"+str(dpi)+", \
-      '"+user_notes+"', '"+localtime+"','"+location+"' )"
-
-
-
-
-image_dir = '/var/www/scans/'
-sys_call = 'python scanning/dynscan.py '+str(dpi) + ' '+ jpg_filename
+      VALUES ("+str(new_id)+", '"+jpeg_filename+"',"+str(dpi)+", \
+      '"+user_notes+"', '"+localtime+"','"+gps_string+"' )"
+#image_dir = '/var/www/scans/'
+#sys_call = 'python scanning/dynscan.py '+str(dpi) + ' '+ jpeg_filename
 #if(user_notes)
 #    sys_call += user_notes
-os.system(sys_call)
-os.system("ln -sf " + image_dir + jpg_filename +" "+image_dir+ "lastScan.jpg")
-
+#os.system(sys_call)
+#os.system("cp" + image_dir + jpg_filename +" "+image_dir+ "lastScan.jpeg")
 
 result['query'] = query
 sys.stdout.write(json.dumps(result,indent=1))
 sys.stdout.write("\n")
+
 sys.stdout.close()
 conn.execute(query)
 conn.commit()
 conn.close()
 
-Watermark_OneSize.watermarkImage(longitude=long, latitude=lat, filename=image_dir+jpg_filename)
+#Watermark_OneSize.watermarkImage(longitude=long, latitude=lat, filename=image_dir+jpg_filename)

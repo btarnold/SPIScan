@@ -1,7 +1,7 @@
-var host_url = "http://169.254.0.2:8080";
+var host_url = "http://localhost";
 
 $(document).ready(function () {
-    $("td").dblclick(function () {
+    $(".editable").dblclick(function () {
         var OriginalContent = $(this).text();
         var row_id = $(this).parents("tr").attr("id");
         $(this).addClass("cellEditing");

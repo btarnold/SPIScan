@@ -31,9 +31,8 @@ sys.stdout.close()
 # Get data from fields
 
 conn = sqlite3.connect(docRoot+'db/test.db')
-usernotes = fs.getvalue('newContent')
 id = fs.getvalue('id')
-conn.execute("UPDATE SCANS set USERNOTES = '"+usernotes+"' where ID = "+id)
+conn.execute("DELETE from SCANS where ID = "+id)
 conn.commit()
 conn.close()
 '''print "Total number of rows updated :", conn.total_changes

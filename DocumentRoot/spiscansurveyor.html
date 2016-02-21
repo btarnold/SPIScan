@@ -60,27 +60,27 @@
         <div class="span8">
            <p align="center"><a class="btn" href="#">Fit in window</a><a class="btn" href="#">Real size</a><a class="btn" href="#">Pixel for pixel</a></p>
           <h3>Main Scan View</h3>
-         <img id = "lastScan" src ="/scans/lastScan.jpg"/>
+         <img id = "lastScan" src ="http://localhost/lastScan.jpg" height = '100%' width = '100%'/>
         </div>
         <div class="span4">
 <form class="well">
 <table border="0" align="center">
 <TBODY>
 	<TR><TD align="center" colspan="4"><h3>Deployment Camera View</h3>
-        <TR><TD align="center" colspan="4"><iframe width="200" height="150" src="http://169.254.0.2:8081" frameborder=1 name="webcamfeed" scrolling="auto" allowfullscreen></iframe>
+        <TR><TD align="center" colspan="4"><iframe width="200" height="150" src="http://youtu.be/eh_HUIJkRzU" frameborder=1 name="webcamfeed" scrolling="auto" allowfullscreen></iframe>
 	<TR><TD align="center"><a class="btn" href="#" >Lasers<i class="icon-asterisk"></i></a>
 	<TD align="center"><a class="btn" href="#">Start<i class="icon-play"></i></a><TD align="center"><a class="btn" href="#">Stop<i class="icon-stop"></i></a><TD align="center"><a class="btn" href="#">Capture<i class="icon-camera"></i></a>
 	<TR><TD align="center" colspan="4"><label class="control-label" for="select01">Scan Resolution</label>
 		<div class="controls">
 		<select id="scanresolution">
-		<option>75 dpi</option>
-		<option>150 dpi</option>
+		<option> 75 dpi</option>
+		<option>125 dpi</option>
 		<option>300 dpi</option>
 		<option>600 dpi</option>
 		</div>
 	<TR><TD align="center" colspan="4"><a class="btn btn-warning btn-large" id = "saveScan">Save Scan</a>
-	<TR><TD align="center" colspan="2"><a class="btn btn-primary btn-large">Preview</a>
-	<TD align="center" colspan="2"><a class="btn btn-primary btn-large">Acquire</a>
+	<TR><TD align="center" colspan="2"><a class="btn btn-primary btn-large" id = 'preview'>Preview</a>
+	<TD align="center" colspan="2"><a class="btn btn-primary btn-large" id = 'acquire'>Acquire</a>
 	<TR><TD align="center" colspan="2"><a class="btn btn-inverse btn-large">Pump 1</a><TD align="center" colspan="2"><a class="btn btn-inverse btn-large">Pump 2</a>
 	<TR><TD align="left" colspan="4">File Prefix<nbsp><nbsp><input type="text" class="input-small">
 	<TR><TD align="left" colspan="4"><label class="control-label" for="textarea">Scan Memo</label><textarea class="input-xlarge" id="memo" rows="3"></textarea>
