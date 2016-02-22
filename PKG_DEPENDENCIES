@@ -18,13 +18,14 @@ SCANNING (Brandon):
 	  will be required in the Makefile at system/scanning
 
 WEBPAGE CONTROLLER:
-packages:
 lighttpd
 php5
 sqlite (or sqlite3)
 php5-sqlite
 zip
 pyfirmata (pip install)
+cherrypy (pip install)
+request (pip install)
 
 GPS:
 
