@@ -24,6 +24,7 @@ php5
 sqlite (or sqlite3)
 php5-sqlite
 zip
+pyfirmata (pip install)
 
 GPS:
 
