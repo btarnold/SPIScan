@@ -1,35 +1,36 @@
 This file will list all known used packages and dependencies as well as notes 
- for those dependencies if needed.
+  for those dependencies if needed.
 These packages are relied on either by the code created/used by the original
- SPIScan project or that created/used by the Cal Poly Capstone group Sea Floor
- Sensing (Brandon, Mana, Aaron, Jon).
+  SPIScan project or that created/used by the Cal Poly Capstone group Sea Floor
+  Sensing (Brandon, Mana, Aaron, Jon).
 
 
 SCANNING (Brandon):
 - sane and any sane-libraries 
-	- pkg name in Arch: sane
-- swig
-	- pkg name in Arch: swig
+	- libsane
+	- libsane-common
+	- libsane-extras
+	- Some others that were installed and I'll need to look back at
+- swig2.0
 	- Depending on the version installed, modifications may need to be made
 	  to the Makefile at system/scanning.
-- python
-	- pkg name in Arch: python and python-dev
+- python2.7
 	- Depending on the version of python used (2.* or 3.*), modifications 
 	  will be required in the Makefile at system/scanning
 
 WEBPAGE CONTROLLER:
-lighttpd
-php5
-sqlite (or sqlite3)
-php5-sqlite
-zip
-pyfirmata (pip install)
-cherrypy (pip install)
-requests (pip install)
+- lighttpd
+- php5
+- sqlite (or sqlite3)
+- php5-sqlite
+- zip
+- pyfirmata (pip install)
+- cherrypy (pip install)
+- requests (pip install)
 
 GPS:
 
 
 
 TIFF, GEOTIFF, and WATERMARKING:
-gdal-bin
+- gdal-bin
