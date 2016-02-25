@@ -15,9 +15,9 @@ $(document).ready(function () {
                 $(this).parent().removeClass("cellEditing");
                 if(newContent !== OriginalContent){
                    $.ajax({
-                        url: host_url+"/cgi-bin/updatedb.py",
+                        url: host_url+"/cgi-bin/db.py",
                         type: "POST",
-                        data: {'id': row_id, 'newContent': newContent},
+                        data: {'id': row_id, 'newContent': newContent, 'action':'update'},
                         success: function(response){
                                 alert(JSON.stringify(response));
                             }

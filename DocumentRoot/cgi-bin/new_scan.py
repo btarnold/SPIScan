@@ -38,10 +38,11 @@ if(percentage > 75 ):
 
 dpi = int(fs.getvalue('resolution'))
 user_notes = fs.getvalue('userNotes')
+prefix = fs.getvalue('prefix')
 
 '''
 image_directory = '/var/www/images';
-sys_call = 'scanning/dynscan.py '+str(dpi)+' '+image_directory+jpeg_filename+' '+image_directory+tiff_filename
+sys_call = 'scanning/dynscan.py '+str(dpi)+' '+image_directory+jpg_filename+' '+image_directory+tiff_filename
 if(user_notes)
     sys_call += user_notes
 os.system(sys_call)
@@ -52,7 +53,7 @@ gps_long = 3.0 #spi_gps.get_longitude()
 gps_string = str(gps_lat) + str(gps_long)
 #connect to db and get picture number/var/www/images
 
-conn = sqlite3.connect('/var/www/html/db/test.db')
+conn = sqlite3.connect('/var/www/db/test.db')
 #print "Opened database successfully"
 
 #compute new id by looking at the max id + 1 from sqlte DB
@@ -70,22 +71,24 @@ localtime = time.strftime('%Y-%m-%d_%H:%M:%S')
 #print localtime
 
 #construct filename
-jpeg_filename = localtime + '.jpeg';
+jpg_filename = localtime + '.jpg';
 tiff_filename = localtime + '.tiff';
+
+if(prefix):
+    jpg_filename = prefix +'_'+ jpg_filename
+    tiff_filename = prefix +'_'+ tiff_filename
 
 location = 'N/A'
 if(not user_notes):
     user_notes = 'null'
 
 query = "INSERT INTO SCANS (ID,FILENAME,DPI,USERNOTES,TIME,LOCATION) \
-      VALUES ("+str(new_id)+", '"+jpeg_filename+"',"+str(dpi)+", \
+      VALUES ("+str(new_id)+", '"+jpg_filename+"',"+str(dpi)+", \
       '"+user_notes+"', '"+localtime+"','"+gps_string+"' )"
 #image_dir = '/var/www/scans/'
-#sys_call = 'python scanning/dynscan.py '+str(dpi) + ' '+ jpeg_filename
-#if(user_notes)
-#    sys_call += user_notes
+#sys_call = 'python scanning/dynscan.py '+str(dpi) + ' '+ jpg_filename
 #os.system(sys_call)
-#os.system("cp" + image_dir + jpg_filename +" "+image_dir+ "lastScan.jpeg")
+#os.system("cp " + image_dir + jpg_filename +" "+image_dir+ "lastScan.jpg")
 
 result['query'] = query
 sys.stdout.write(json.dumps(result,indent=1))

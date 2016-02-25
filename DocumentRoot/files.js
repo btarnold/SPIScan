@@ -13,8 +13,9 @@ $(document).ready(function()
    });
    $("#purge").click(function(){
       $.ajax({
-           url: host_url+"/cgi-bin/purgedb.py",
+           url: host_url+"/cgi-bin/db.py",
            type: "POST",
+           data: {'action':'purge'},
            success: function(response){
                alert(JSON.stringify(response));
                location.reload(true);
@@ -25,9 +26,9 @@ $(document).ready(function()
       var tr = $(this).closest('tr');
       var row_id = tr.attr("id");
       $.ajax({
-           url: host_url+"/cgi-bin/delete_db_entry.py",
+           url: host_url+"/cgi-bin/db.py",
            type: "POST",
-           data: {'id': row_id},
+           data: {'id': row_id, 'action':'delete_entry'},
            success: function(response){
                   alert(JSON.stringify(response));
                   tr.css("background-color","#FF3700");
