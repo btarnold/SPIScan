@@ -25,8 +25,8 @@ for k in fs.keys():
 result['data'] = d
 
 #Resize Watermark resize to 3531
-os.system('sqlite3 -header -csv /var/www/html/db/test.db "select * from SCANS;" > /var/www/html/db/test.csv')
-os.system('zip -j /var/www/html/db.zip /var/www/html/db/test.csv /var/www/html/images/*')
+os.system('sqlite3 -header -csv /var/www/db/test.db "select * from SCANS;" > /var/www/db/test.csv')
+os.system('zip -j /var/www/db.zip /var/www/db/test.csv /var/www/scans/*')
 
 sys.stdout.write(json.dumps(result,indent=1))
 sys.stdout.write("\n")

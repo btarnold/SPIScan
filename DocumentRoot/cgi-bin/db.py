@@ -1,9 +1,10 @@
 #!/usr/bin/python2.7
 
-import os, sys
+import subprocess, sys
 import json
 import cgi,cgitb
 import sqlite3
+import glob, os
 
 docRoot = '/var/www/'
 
@@ -17,7 +18,9 @@ def delete_entry(id):
 def purge():
     conn = sqlite3.connect(docRoot+'db/test.db')
     conn.execute("DELETE from SCANS")
-    os.system("rm "+docRoot+'/scans/*')
+    for filename in glob.glob(docRoot+'scans/*'):
+        os.remove(filename)
+    os.remove(docRoot+'db.zip')
     conn.commit()
     conn.close()
 

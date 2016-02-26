@@ -3,13 +3,13 @@ var host_url = 'http://localhost';
 $(document).ready(function()
 {
    $("#saveScan").click(function(){
-      var dpi = $('#scanresolution option:selected').text().split(' ')[1];
+      var dpi = $('#scanresolution option:selected').text().split(' ')[0];
       var userNotes = $('#memo').val();
       var prefix = $('#prefix').val();
       $.ajax({
            url: host_url+"/cgi-bin/new_scan.py",
            type: "POST",
-           data: {'resolution': dpi, 'userNotes': userNotes, 'prefix':prefix},
+           data: {'resolution': dpi, 'userNotes': userNotes, 'prefix':prefix, 'time':$.now()},
            success: function(response){
                    alert(JSON.stringify(response));
                    if(response['success']){

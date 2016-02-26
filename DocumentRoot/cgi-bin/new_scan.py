@@ -5,9 +5,9 @@ import json
 import cgi
 import os
 import sqlite3
-import time
+import datetime
 #import spi_gps
-#import Watermark_OneSize
+#from ImageProcessing import watermarkImage
 import df
 
 fs = cgi.FieldStorage()
@@ -39,6 +39,7 @@ if(percentage > 75 ):
 dpi = int(fs.getvalue('resolution'))
 user_notes = fs.getvalue('userNotes')
 prefix = fs.getvalue('prefix')
+ts_epoch = int(fs.getvalue('time'))/1000
 
 '''
 image_directory = '/var/www/images';
@@ -67,7 +68,7 @@ for row in cursor:
 #print new_id
 
 #time
-localtime = time.strftime('%Y-%m-%d_%H:%M:%S')
+localtime = datetime.datetime.fromtimestamp(ts_epoch).strftime('%Y-%m-%d_%H:%M:%S')
 #print localtime
 
 #construct filename
@@ -94,9 +95,18 @@ result['query'] = query
 sys.stdout.write(json.dumps(result,indent=1))
 sys.stdout.write("\n")
 
+#watermarkImage(lat, long, image_dir+jpg_filename)
+if(gps_lat < 0):
+    lat_ref = 'S'
+else:
+    lat_ref = 'N'
+if(gps_long < 0):
+    long_ref = 'W'
+else
+    long_ref = 'E'
+os.system('exiftool -GPSLongitude="'+str(gps_long)+'"  -GPSLatitude="'+str(gps_lat)+'" -GPSLatitudeRef="'+lat_ref+'" -GPSLongitudeRef="'+long_ref+'"  '+jpg_filename)
+
 sys.stdout.close()
 conn.execute(query)
 conn.commit()
 conn.close()
-
-#Watermark_OneSize.watermarkImage(longitude=long, latitude=lat, filename=image_dir+jpg_filename)
