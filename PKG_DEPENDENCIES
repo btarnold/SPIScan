@@ -28,9 +28,8 @@ WEBPAGE CONTROLLER:
 - cherrypy (pip install)
 - requests (pip install)
 
-GPS:
-
-
+GPS: (none?)
 
 TIFF, GEOTIFF, and WATERMARKING:
 - gdal-bin
+- imagemagick
