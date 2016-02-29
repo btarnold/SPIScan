@@ -36,7 +36,7 @@ if __name__ == '__main__':
             'tools.CORS.on': True,
         }
     }
-    cherrypy.config.update({'server.socket_host': '127.0.0.1',
+    cherrypy.config.update({'server.socket_host': '129.65.26.196',
                          'server.socket_port': 9999,
                         })
     cherrypy.tools.CORS = cherrypy.Tool('before_handler', CORS)

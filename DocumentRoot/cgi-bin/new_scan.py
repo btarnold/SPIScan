@@ -1,14 +1,17 @@
 #!/usr/bin/env python
 
+## IMPORTED LIBRARIES AND FUNCTIONS
 import sys
 import json
 import cgi
 import os
 import sqlite3
 import datetime
-#import spi_gps
-#from ImageProcessing import watermarkImage
 import df
+from subprocess import call
+from shutil import copy2
+from ImageProcessing import watermarkImage
+#import spi_gps
 
 fs = cgi.FieldStorage()
 
@@ -41,13 +44,6 @@ user_notes = fs.getvalue('userNotes')
 prefix = fs.getvalue('prefix')
 ts_epoch = int(fs.getvalue('time'))/1000
 
-'''
-image_directory = '/var/www/images';
-sys_call = 'scanning/dynscan.py '+str(dpi)+' '+image_directory+jpg_filename+' '+image_directory+tiff_filename
-if(user_notes)
-    sys_call += user_notes
-os.system(sys_call)
-'''
 #get coordinates from GPS module
 gps_lat = 3.0 #spi_gps.get_latitude()
 gps_long = 3.0 #spi_gps.get_longitude()
@@ -86,25 +82,37 @@ if(not user_notes):
 query = "INSERT INTO SCANS (ID,FILENAME,DPI,USERNOTES,TIME,LOCATION) \
       VALUES ("+str(new_id)+", '"+jpg_filename+"',"+str(dpi)+", \
       '"+user_notes+"', '"+localtime+"','"+gps_string+"' )"
-#image_dir = '/var/www/scans/'
-#sys_call = 'python scanning/dynscan.py '+str(dpi) + ' '+ jpg_filename
-#os.system(sys_call)
-#os.system("cp " + image_dir + jpg_filename +" "+image_dir+ "lastScan.jpg")
+
+
+## IMAGE FILE LOCATION MANIPULATION
+#### Brandon removed uses of 'os.system' and replaced with calls to 'subprocess.call'
+image_dir = '/var/www/scans/'
+call(["python","scanning/dynscan.py",str(dpi),jpg_filename])
+### sys_call = 'python scanning/dynscan.py '+str(dpi) + ' '+ jpg_filename
+### os.system(sys_call)
+### sys_call = 'cp '+image_dir+jpg_filename+' '+image_dir+'lastScan.jpg'
+### sys_call = 'ln -s '+image_dir+jpg_filename+' '+image_dir+'lastScan.jpg'
+### os.system(sys_call)
+jfn = image_dir+jpg_filename
+last = image_dir+"lastScan.jpg"
+call(["rm", last])	# Remove the previous 'lastScan.jpg' file
+call(["cp", _jfn, _last]) # Copy the image to lastScan.jpg as well. Would be better (less space) to do a symlink
+
 
 result['query'] = query
 sys.stdout.write(json.dumps(result,indent=1))
 sys.stdout.write("\n")
 
-#watermarkImage(lat, long, image_dir+jpg_filename)
+#watermarkImage(gps_lat, gps_long, image_dir+jpg_filename)
 if(gps_lat < 0):
     lat_ref = 'S'
 else:
     lat_ref = 'N'
 if(gps_long < 0):
     long_ref = 'W'
-else
+else:
     long_ref = 'E'
-os.system('exiftool -GPSLongitude="'+str(gps_long)+'"  -GPSLatitude="'+str(gps_lat)+'" -GPSLatitudeRef="'+lat_ref+'" -GPSLongitudeRef="'+long_ref+'"  '+jpg_filename)
+#os.system('exiftool -GPSLongitude="'+str(gps_long)+'"  -GPSLatitude="'+str(gps_lat)+'" -GPSLatitudeRef="'+lat_ref+'" -GPSLongitudeRef="'+long_ref+'"  '+jpg_filename)
 
 sys.stdout.close()
 conn.execute(query)
