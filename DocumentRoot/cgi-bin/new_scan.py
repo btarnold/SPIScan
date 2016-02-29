@@ -96,7 +96,7 @@ call(["python","scanning/dynscan.py",str(dpi),jpg_filename])
 jfn = image_dir+jpg_filename
 last = image_dir+"lastScan.jpg"
 call(["rm", last])	# Remove the previous 'lastScan.jpg' file
-call(["cp", _jfn, _last]) # Copy the image to lastScan.jpg as well. Would be better (less space) to do a symlink
+call(["cp",jfn,last]) # Copy the image to lastScan.jpg as well. Would be better (less space) to do a symlink
 
 
 result['query'] = query
