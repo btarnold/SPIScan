@@ -27,8 +27,12 @@ def watermarkImage(latitude, longitude, filename):
 	arg = "convert canvas: tempRotated.jpg -gravity east -fill white -draw \"rectangle 0,0 30, %d\" -rotate -270 \
 			-gravity north -fill red -pointsize 10  -annotate +0+3 'Latitude: %lf Longitude: %lf' \
 						   -annotate +0+16 'Time: %s' \
-						   -rotate 270 FinalImage.jpg" %(length, latitude, longitude, time.ctime())
+						   -rotate 270 Image.tiff" %(length, latitude, longitude, time.ctime())
 	os.system(arg)
+
+	#Separate Image Array and Delete First Blank Entry 
+	os.system("convert Image.tiff FinalImage%d.tiff" )
+	os.system("rm Image.tiff FinalImage0.tiff")
 
 	#Remove Temporary Files
 	os.system("rm temp*")
@@ -36,14 +40,17 @@ def watermarkImage(latitude, longitude, filename):
 	#Create World File 
 	outputTWF(latitude, longitude, width, length)
 
-	#Create a folder?? 
+	#Convert to geotiff
+	arg = "geotifcp -e FinalImage1.tfw -p contig FinalImage1.tiff %s_GEO.tiff" %(filename.strip(".jpg"))
+	os.system(arg)
+	os.system("rm FinalImage*")
 
 def outputTWF(latitude, longitude, width, length): 
 	#xScale and yScale Refer to units per pixel 
 	xScale = "0.00011559999999999991"
 	yScale = "-0.00011559999999999991"
 
-	outFile = open("FinalImage.tfw", 'w')
+	outFile = open("FinalImage1.tfw", 'w')
 	outFile.write(xScale+"\n"
 				  +"0\n0\n"+yScale+"\n%lf\n%lf" %(latitude, longitude))
 
