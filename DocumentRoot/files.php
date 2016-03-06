@@ -11,6 +11,7 @@
 
     <!-- Le styles -->
     <link href="static/docs/assets/css/bootstrap.css" rel="stylesheet">
+    
     <style>
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -19,7 +20,7 @@
     <link href="static/docs/assets/css/bootstrap-responsive.css" rel="stylesheet">
     <link href="table.css" rel="stylesheet">
     <link href="theme.css" rel="stylesheet">
-
+    <link href="alert.css" rel="stylesheet">
     <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="static/docs/ico/favicon.ico">
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="static/docs/assets/ico/apple-touch-icon-114-precomposed.png">
@@ -49,14 +50,18 @@
         </div>
       </div>
     </div>
-    <div align = "center">
-       <div id = 'sysmem'></div>
-       <a class = 'btn' id = 'export'>Export and Pack</a>
-       <a class = 'btn' id = 'dlzip' href = "/db.zip">Download Zip</a>
-       <a class = 'btn' id = 'purge'>Purge</a>
+    
+    <div id="alert" class = 'alert bb-alert' style='display: none;'>
     </div>
-
     <div class="container">
+        <div id = 'sysmem'></div>
+        <div align = "center">
+           
+           <a class = 'btn' id = 'export'>Export and Pack</a>
+           <a class = 'btn' id = 'dlzip' href = "/db.zip">Download Zip</a>
+           <a class = 'btn' id = 'purge'>Purge</a>
+           
+        </div>
       <?php
          class MyDB extends SQLite3
          {
@@ -66,11 +71,11 @@
             }
          }
          $db = new MyDB();
-         if(!$db){
-            echo $db->lastErrorMsg();
-         } else {
-            echo "Opened database successfully<br/>";
-         }
+         // if(!$db){
+         //    echo $db->lastErrorMsg();
+         // } else {
+         //    echo "Opened database successfully<br/>";
+         // }
 
          $sql = "SELECT * from SCANS";
          $ret = $db->query($sql);
@@ -112,21 +117,11 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
 
-    <script src="static/docs/assets/js/jquery.js"></script>
-    <script src="table.js"></script>
+    <script src="static/js/jquery.js"></script>
+    <script src="static/js/bootstrap.js"></script>
+    <script src="static/js/bootbox.js"></script>
     <script src="files.js"></script>
-    <script src="static/docs/assets/js/bootstrap-transition.js"></script>
-    <script src="static/docs/assets/js/bootstrap-alert.js"></script>
-    <script src="static/docs/assets/js/bootstrap-modal.js"></script>
-    <script src="static/docs/assets/js/bootstrap-dropdown.js"></script>
-    <script src="static/docs/assets/js/bootstrap-scrollspy.js"></script>
-    <script src="static/docs/assets/js/bootstrap-tab.js"></script>
-    <script src="static/docs/assets/js/bootstrap-tooltip.js"></script>
-    <script src="static/docs/assets/js/bootstrap-popover.js"></script>
-    <script src="static/docs/assets/js/bootstrap-button.js"></script>
-    <script src="static/docs/assets/js/bootstrap-collapse.js"></script>
-    <script src="static/docs/assets/js/bootstrap-carousel.js"></script>
-    <script src="static/docs/assets/js/bootstrap-typeahead.js"></script>
+    <script src="alert.js"></script>
 
   </body>
 </html>

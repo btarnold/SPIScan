@@ -1,4 +1,5 @@
 #!/usr/bin/python
+#hacky file used to get disk space usage from the first entry of unix command df, (should be correct for RPi)
 import sys
 import subprocess
 

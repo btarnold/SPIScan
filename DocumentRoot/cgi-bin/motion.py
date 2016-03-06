@@ -1,27 +1,31 @@
 #!/usr/bin/python2.7
+# This CGI Python script is invoked when any of the 
+# webcam buttons on the deploy webpage is called.
+# It directly calls any command line statements that
+# are involved with motion.
 from subprocess import call
 import sys
 import json
 import cgi
 import os
 
-host = 'localhost'
+host = os.environ['REMOTE_ADDR']
 
 ## Restart the motion daemon
 def restart():
-    os.system("service motion restart > /dev/null")
+    call(["service motion restart"], shell=True)
 
 ## Start the motion daemon
 def start():
-    os.system("service motion start > /dev/null")
+    call("service motion start", shell=True)
 
 ## Stop the motion daemon
 def stop():
-    os.system("service motion stop > /dev/null")
+    call("service motion stop", shell=True)
 
 ## Take screenshot of motion feed
 def screenshot():
-    os.system("curl "+host+":8080/0/action/snapshot > /dev/null")
+    call("curl "+host+":8080/0/action/snapshot > /dev/null", shell=True)
 
 map = {
     'restart':restart,
@@ -39,9 +43,9 @@ sys.stdout.write("\n")
 
 
 result = {}
-result['success'] = True
-result['message'] = "Called motion.py"
+result['type'] = 'success'
 result['keys'] = ",".join(fs.keys())
+result['host'] = host
 
 d = {}
 for k in fs.keys():
@@ -50,7 +54,8 @@ for k in fs.keys():
 result['data'] = d
 
 action = fs.getvalue('action')
-map[action]() #oooo spicy
+result['message'] = "Called "+action
+map[action]()
 sys.stdout.write(json.dumps(result,indent=1))
 sys.stdout.write("\n")
 

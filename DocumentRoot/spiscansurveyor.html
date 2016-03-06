@@ -12,6 +12,8 @@
 
     <!-- Le styles -->
     <link href="static/docs/assets/css/bootstrap.css" rel="stylesheet">
+    
+    <link href="alert.css" rel="stylesheet">
     <style>
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -54,27 +56,29 @@
         </div>
       </div>
     </div>
-
+    <div id="alert" class = 'alert bb-alert' style='display: none;'>
+    </div>
     <div class="container">
+    <div id = 'sysmem'></div>
  <div class="row">
         <div class="span8">
            <p align="center"><a class="btn" href="#">Fit in window</a><a class="btn" href="#">Real size</a><a class="btn" href="#">Pixel for pixel</a></p>
           <h3>Main Scan View</h3>
-         <img id = "lastScan" src ="http://localhost/scans/lastScan.jpg" height = '100%' width = '100%'/>
+         <img id = "lastScan" src ="/scans/lastScan.jpg" height = '100%' width = '100%'/>
         </div>
         <div class="span4">
 <form class="well">
 <table border="0" align="center">
 <TBODY>
 	<TR><TD align="center" colspan="4"><h3>Deployment Camera View</h3>
-        <TR><TD align="center" colspan="4"><iframe src="http://localhost:8081" frameborder=1 name="webcamfeed" scrolling="auto"></iframe>
+        <TR><TD align="center" colspan="4"><iframe id="webcamfeed" frameborder=1 name="webcamfeed" scrolling="auto"></iframe>
 	<TR><TD align="center"><a class="btn" href="#" id = 'lasers'>Lasers<i class="icon-asterisk"></i></a>
 	<TD align="center"><a class="btn" href="#" id = 'start'>Start<i class="icon-play"></i></a><TD align="center"><a class="btn" href="#" id = 'stop'>Stop<i class="icon-stop"></i></a><TD align="center"><a class="btn" href="#" id = 'capture'>Capture<i class="icon-camera"></i></a>
 	<TR><TD align="center" colspan="4"><label class="control-label" for="select01">Scan Resolution</label>
 		<div class="controls">
 		<select id="scanresolution">
 		<option>75 dpi</option>
-		<option>125 dpi</option>
+		<option>150 dpi</option>
 		<option>300 dpi</option>
 		<option>600 dpi</option>
 		</div>
@@ -106,27 +110,17 @@
       </div>
 <HR>
       <footer>
-        <p align="right"><a class="btn" href="/spiscanmanual.html" target="blank">Manual <i class="icon-question-sign"></i></a></p>
+        <p align="right"><a class="btn" href="/manual.html" target="blank">Manual <i class="icon-question-sign"></i></a></p>
       </footer>
     </div> <!-- /container -->
 
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="static/docs/assets/js/jquery.js"></script>
+    <script src="static/js/jquery.js"></script>
+    <script src="static/js/bootstrap.js"></script>
+    <script src="static/js/bootbox.js"></script>
     <script src="spiscansurveyor.js"></script>
-    <script src="static/docs/assets/js/bootstrap-transition.js"></script>
-    <script src="static/docs/assets/js/bootstrap-alert.js"></script>
-    <script src="static/docs/assets/js/bootstrap-modal.js"></script>
-    <script src="static/docs/assets/js/bootstrap-dropdown.js"></script>
-    <script src="static/docs/assets/js/bootstrap-scrollspy.js"></script>
-    <script src="static/docs/assets/js/bootstrap-tab.js"></script>
-    <script src="static/docs/assets/js/bootstrap-tooltip.js"></script>
-    <script src="static/docs/assets/js/bootstrap-popover.js"></script>
-    <script src="static/docs/assets/js/bootstrap-button.js"></script>
-    <script src="static/docs/assets/js/bootstrap-collapse.js"></script>
-    <script src="static/docs/assets/js/bootstrap-carousel.js"></script>
-    <script src="static/docs/assets/js/bootstrap-typeahead.js"></script>
-
+    <script src="alert.js"></script>
   </body>
 </html>
