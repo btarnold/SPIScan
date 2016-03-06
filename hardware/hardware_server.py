@@ -1,3 +1,4 @@
+#this is a cherry py script for interacting between the webpage and the arduino through Firmata protocol.
 import cherrypy
 import spi_firmata
 import os
@@ -12,7 +13,7 @@ def strToFunction(str):
         spi_firmata.pump2_toggle()
     elif(str.split()[0] == 'pwmLED'):
         spi_firmata.pwmLED(int(str.split()[1]))
-    return json.dumps({'call':str})
+    return json.dumps({'message':str, 'type':'success'})
 
 class ArduinoWebService(object):
     exposed = True

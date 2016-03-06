@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+#This CGI file creates a new scan, takes GPS + time, stores all information into database.
 
 ## IMPORTED LIBRARIES AND FUNCTIONS
 import sys
@@ -22,7 +23,7 @@ sys.stdout.write("\n")
 
 
 result = {}
-result['success'] = True
+result['type'] = 'success'
 result['message'] = "Called new_scan.py"
 result['keys'] = ",".join(fs.keys())
 
@@ -33,8 +34,9 @@ for k in fs.keys():
 result['data'] = d
 
 percentage = int(df.disk_space().split('%')[0])
-if(percentage > 75 ):
-    result['success'] = False
+if(percentage > 80 ):
+    result['message'] = "Disk too full, please export and purge"
+    result['type'] = 'danger'
     sys.stdout.write(json.dumps(result,indent=1))
     sys.stdout.write("\n")
     sys.exit()
@@ -48,10 +50,8 @@ ts_epoch = int(fs.getvalue('time'))/1000
 gps_lat = 3.0 #spi_gps.get_latitude()
 gps_long = 3.0 #spi_gps.get_longitude()
 gps_string = str(gps_lat) + str(gps_long)
-#connect to db and get picture number/var/www/images
 
 conn = sqlite3.connect('/var/www/db/test.db')
-#print "Opened database successfully"
 
 #compute new id by looking at the max id + 1 from sqlte DB
 cursor = conn.execute("SELECT MAX(ID) FROM SCANS;")
@@ -86,18 +86,11 @@ query = "INSERT INTO SCANS (ID,FILENAME,DPI,USERNOTES,TIME,LOCATION) \
 
 ## IMAGE FILE LOCATION MANIPULATION
 #### Brandon removed uses of 'os.system' and replaced with calls to 'subprocess.call'
-image_dir = '/var/www/scans/'
-call(["python","scanning/dynscan.py",str(dpi),jpg_filename])
-### sys_call = 'python scanning/dynscan.py '+str(dpi) + ' '+ jpg_filename
-### os.system(sys_call)
-### sys_call = 'cp '+image_dir+jpg_filename+' '+image_dir+'lastScan.jpg'
-### sys_call = 'ln -s '+image_dir+jpg_filename+' '+image_dir+'lastScan.jpg'
-### os.system(sys_call)
-jfn = image_dir+jpg_filename
-last = image_dir+"lastScan.jpg"
-call(["rm", last])	# Remove the previous 'lastScan.jpg' file
-call(["cp",jfn,last]) # Copy the image to lastScan.jpg as well. Would be better (less space) to do a symlink
-
+# image_dir = '/var/www/scans/'
+# call(["python","scanning/dynscan.py",str(dpi),jpg_filename])
+# jfn = image_dir+jpg_filename
+# last = image_dir+"lastScan.jpg"
+# call(["cp",jfn,last]) # Copy the image to lastScan.jpg as well. Would be better (less space) to do a symlink
 
 result['query'] = query
 sys.stdout.write(json.dumps(result,indent=1))

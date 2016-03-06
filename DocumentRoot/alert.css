@@ -1,0 +1,7 @@
+.bb-alert {
+    position: fixed;
+    bottom: 50%;
+    right: 0;
+    margin-bottom: 0;
+    z-index: 2000;
+}
