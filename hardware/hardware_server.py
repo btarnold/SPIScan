@@ -1,4 +1,4 @@
-#this is a cherry py script for interacting between the webpage and the arduino through Firmata protocol.
+#this is a cherry py webserver for interacting between the webpage and the arduino through Firmata protocol.
 import cherrypy
 import spi_firmata
 import os

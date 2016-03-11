@@ -29,7 +29,7 @@ for k in fs.keys():
 result['data'] = d
 
 call('sqlite3 -header -csv /var/www/db/test.db "select * from SCANS;" > /var/www/db/test.csv', shell=True)
-call('zip -j /var/www/db.zip /var/www/db/test.csv /var/www/scans/*', shell=True)
+call('zip -j /var/www/db/db.zip /var/www/db/test.csv /var/www/scans/*', shell=True)
 
 sys.stdout.write(json.dumps(result,indent=1))
 sys.stdout.write("\n")

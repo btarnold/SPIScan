@@ -13,7 +13,7 @@ host = os.environ['REMOTE_ADDR']
 
 ## Restart the motion daemon
 def restart():
-    call(["service motion restart"], shell=True)
+    call("service motion restart", shell=True)
 
 ## Start the motion daemon
 def start():

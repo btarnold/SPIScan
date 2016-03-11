@@ -57,9 +57,9 @@
         <div id = 'sysmem'></div>
         <div align = "center">
            
-           <a class = 'btn' id = 'export'>Export and Pack</a>
-           <a class = 'btn' id = 'dlzip' href = "/db.zip">Download Zip</a>
-           <a class = 'btn' id = 'purge'>Purge</a>
+           <div class = 'btn btn-success' id = 'export'>Export and Pack</div>
+           <a class = 'btn btn-success' id = 'dlzip' href = "/db/db.zip">Download Zip</a>
+           <div class = 'btn btn-danger' id = 'purge'>Purge</div>
            
         </div>
       <?php
@@ -99,10 +99,10 @@
             echo "<td class = 'editable'>".$row['USERNOTES'] ."</td>";
             echo "<td>".$row['TIME'] ."</td>";
             echo "<td>".$row['LOCATION'] ."</td>";
-            echo "<td><button><a href = 'scans/".$row['FILENAME'] . "' ";
+            echo "<td><a class = 'btn' href = '/scans/".$row['FILENAME'] . "' ";
             echo "download = '".$row['FILENAME']."'>";
-	         echo "DOWNLOAD</td></button></td>";
-            echo "<td><button class = 'delete'>DELETE</button></td>";
+	          echo "<i class='icon-download'/></a></td>";
+            echo "<td><div class = 'btn btn-danger delete'><i class='icon-remove'/></button></td>";
             echo "</tr>";
          }
          echo "</table>";

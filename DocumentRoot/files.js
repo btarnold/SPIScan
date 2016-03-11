@@ -3,9 +3,16 @@ It also enables editing of user-notes (by double clicking) and make an
 ajax request to the appropriate cgi-script if there is a change made.
 It also makes an initial call for disk space usage.*/
 
+//useful function, needed for replacing commas
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.split(search).join(replacement);
+};
+
 $(document).ready(function()
 {
-   Alert.init("#alert");
+   
+   //BUTTON MAPPINGS
    $("#export").click(function(){
       $.ajax({
            url: "/cgi-bin/exportcsv.py",
@@ -56,7 +63,7 @@ $(document).ready(function()
       }); 
    });
    $(".editable").dblclick(function () {
-        var OriginalContent = $(this).text();
+        var OriginalContent = $(this).text().replaceAll("'","&apos;");
         var row_id = $(this).parents("tr").attr("id");
         $(this).addClass("cellEditing");
         $(this).html("<input type='text' value='" + OriginalContent + "' />");
@@ -68,6 +75,7 @@ $(document).ready(function()
                 $(this).parent().text(newContent);
                 $(this).parent().removeClass("cellEditing");
                 if(newContent !== OriginalContent){
+                   //newContent.replaceAll("&apos;","'");
                    $.ajax({
                         url: "/cgi-bin/db.py",
                         type: "POST",
@@ -81,10 +89,13 @@ $(document).ready(function()
         });
 
         $(this).children().first().blur(function(){
+            OriginalContent = OriginalContent.replaceAll("&apos;","'");
             $(this).parent().text(OriginalContent);
             $(this).parent().removeClass("cellEditing");
         });
     });
+   //PAGE INITIALIZATION
+   Alert.init("#alert");
    $.ajax({
         url: "/cgi-bin/disk_space.py",
         type: "POST",
@@ -93,10 +104,10 @@ $(document).ready(function()
             var percentage = response['percentage'].split('%')[0];
             $("#sysmem").html(
               '<div class="progress"> \
-              <div class="bar" style="width:'+percentage+'%;"> \
-                '+percentage+'% Full \
-              </div> \
-            </div>'
+                <div class="bar" style="width:'+percentage+'%;"> \
+                  '+percentage+'% Full \
+                </div> \
+              </div>'
             );
         }
    });

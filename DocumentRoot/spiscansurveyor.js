@@ -3,13 +3,13 @@ It also makes an initial call for disk space usage*/
 
 $(document).ready(function()
 {
-   Alert.init("#alert");
+   //BUTTON MAPPINGS
    $("#saveScan").click(function(){
       var dpi = $('#scanresolution option:selected').text().split(' ')[0];
       var userNotes = $('#memo').val();
       var prefix = $('#prefix').val();
       $.ajax({
-           url: "cgi-bin/new_scan.py",
+           url: "/cgi-bin/new_scan.py",
            type: "POST",
            data: {'resolution': dpi, 'userNotes': userNotes, 'prefix':prefix, 'time':$.now()},
            success: function(response){
@@ -119,8 +119,9 @@ $(document).ready(function()
          }
       });
    });
-   // changes on startup
+   // PAGE INITIALIZIATION
    $("#webcamfeed").attr('src',location.protocol + "//" + location.host+":8081");
+   Alert.init("#alert");
    $.ajax({
         url: "/cgi-bin/disk_space.py",
         type: "POST",
