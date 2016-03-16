@@ -32,4 +32,8 @@ GPS: (none?)
 
 TIFF, GEOTIFF, and WATERMARKING:
 - gdal-bin
+- libgdal-dev
+- python-gdal
 - imagemagick
+- imagemagick-common
+- python-pythonmagick
