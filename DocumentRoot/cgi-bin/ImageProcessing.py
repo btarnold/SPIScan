@@ -1,10 +1,9 @@
 #!/usr/bin/python
 import os
-import time
 import subprocess
 
 
-def watermarkImage(latitude, longitude, filename): 
+def watermarkImage(latitude, longitude, filename, localtime): 
 	#Obtain Dimensions of image through system response 
 	dimensions = getDimensions(filename)
 
@@ -27,7 +26,7 @@ def watermarkImage(latitude, longitude, filename):
 	arg = "convert canvas: tempRotated.jpg -gravity east -fill white -draw \"rectangle 0,0 30, %d\" -rotate -270 \
 			-gravity north -fill red -pointsize 10  -annotate +0+3 'Latitude: %lf Longitude: %lf' \
 						   -annotate +0+16 'Time: %s' \
-						   -rotate 270 Image.tiff" %(length, latitude, longitude, time.ctime())
+						   -rotate 270 Image.tiff" %(length, latitude, longitude, localtime)
 	os.system(arg)
 
 	#Separate Image Array and Delete First Blank Entry 
@@ -41,7 +40,7 @@ def watermarkImage(latitude, longitude, filename):
 	outputTWF(latitude, longitude, width, length)
 
 	#Convert to geotiff
-	arg = "geotifcp -e FinalImage1.tfw -p contig FinalImage1.tiff %s_GEO.tiff" %(filename.strip(".jpg"))
+	arg = "geotifcp -e FinalImage1.tfw -p contig FinalImage1.tiff %s.tiff" %(filename.strip(".jpg"))
 	os.system(arg)
 	os.system("rm FinalImage*")
 

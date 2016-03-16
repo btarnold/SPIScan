@@ -93,7 +93,7 @@
          while($row = $ret->fetchArray(SQLITE3_ASSOC) ){
             echo "<tr id = '".$row['ID']."'>";
             echo "<td>". $row['ID'] . "</td>";
-            echo "<td><a href = 'scans/". $row['FILENAME'] ."'>";
+            echo "<td><a href = 'scans/". $row['FILENAME'].explode(".")[0] .".jpg'>";
             echo $row['FILENAME'] ."</a></td>";
             echo "<td>". $row['DPI'] ."</td>";
             echo "<td class = 'editable'>".$row['USERNOTES'] ."</td>";
