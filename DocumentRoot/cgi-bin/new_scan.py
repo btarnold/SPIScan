@@ -32,7 +32,7 @@ result['data'] = d
 
 #get disk percentage and end if we are too full
 percentage = int(df.disk_space().split('%')[0])
-if(percentage > 80 ):
+if(percentage >= 80 ):
     result['message'] = "Disk too full, please export and purge"
     result['type'] = 'danger'
     sys.stdout.write(json.dumps(result,indent=1))
@@ -46,10 +46,13 @@ prefix = fs.getvalue('prefix')
 ts_epoch = int(fs.getvalue('time'))/1000
 
 #get coordinates from GPS module
-gps_lat = 3.0 #spi_gps.get_latitude()
-gps_long = 3.0 #spi_gps.get_longitude()
+gps_lat = 35.284932 #spi_gps.get_latitude() TODO: Uncomment and init GPS on startup
+gps_long = -120.656834 #spi_gps.get_longitude()
+gps_time = None #spi_gps.get_time()
+if(gps_time and gps_time != 'N/A'):
+    gps_time = gps_time.split('T').join('_').split('.')[0] #dear god....
 gps_string = 'Lat: ' + str(gps_lat) + ' Long: '+ str(gps_long)
-
+sys.stderr.write(gps_string+"\n") 
 conn = sqlite3.connect('/var/www/db/test.db')
 
 #compute new id by looking at the max id + 1 from sqlte DB
@@ -63,7 +66,7 @@ for row in cursor:
 
 #time
 localtime = datetime.datetime.fromtimestamp(ts_epoch).strftime('%Y-%m-%d_%H:%M:%S')
-#print localtime
+used_time = gps_time if gps_time and gps_time != 'N/A' else localtime
 
 #construct filename
 jpg_filename = localtime + '.jpg';
@@ -77,9 +80,11 @@ if(user_notes):
 else:
     user_notes = 'null'
 
+
+
 query = "INSERT INTO SCANS (ID,FILENAME,DPI,USERNOTES,TIME,LOCATION) \
-      VALUES ("+str(new_id)+", '"+jpg_filename+"',"+str(dpi)+", \
-      '"+user_notes+"', '"+localtime+"','"+gps_string+"' )"
+      VALUES ("+str(new_id)+", '"+tiff_filename+"',"+str(dpi)+", \
+      '"+user_notes+"', '"+used_time+"','"+gps_string+"' )"
 
 
 ## IMAGE FILE LOCATION MANIPULATION
@@ -103,7 +108,7 @@ if(gps_long < 0):
     long_ref = 'W'
 else:
     long_ref = 'E'
-#os.system('exiftool -GPSLongitude="'+str(gps_long)+'"  -GPSLatitude="'+str(gps_lat)+'" -GPSLatitudeRef="'+lat_ref+'" -GPSLongitudeRef="'+long_ref+'"  '+jpg_filename)
+#call('exiftool -GPSLongitude="'+str(gps_long)+'"  -GPSLatitude="'+str(gps_lat)+'" -GPSLatitudeRef="'+lat_ref+'" -GPSLongitudeRef="'+long_ref+'"  '+jpg_filename,shell=True)
 
 sys.stdout.close()
 conn.execute(query)
